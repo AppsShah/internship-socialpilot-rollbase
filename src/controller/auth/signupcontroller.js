@@ -1,5 +1,5 @@
 const { signup } = require("../../db/query")
-const { hashingpassword } = require("../../helper/token")
+const { hashingpassword } = require("../../helper/hashing")
 
 const signupconttroller=async(ctx)=>{
     const email=ctx.request.body.email

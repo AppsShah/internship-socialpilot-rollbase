@@ -1,16 +1,5 @@
 const { isEmailindb } = require("../../db/query");
-const { verifytoken } = require("../../helper/token");
 
-const inviteistokenexpire = (ctx, next) => {
-  const verify = verifytoken(ctx.query.token);
-  if (verify.email == null)
-    return (ctx.body = {
-      status: false,
-      message: "token not verify maybe expire",
-    });
-  ctx.state.owner = verify.email;
-  return next();
-};
 const inviteisemail = async (ctx, next) => {
   const email = ctx.request.body.email;
   if (email == undefined)
@@ -37,4 +26,12 @@ const inviteispassword = (ctx, next) => {
     });
   return next();
 };
-module.exports = { inviteistokenexpire, inviteisemail, inviteispassword };
+
+const isinviteteamorowner=(ctx,next)=>{
+  const owneremail=ctx.state.userdata
+  // console.log(owneremail)
+  if(owneremail.level=="o")
+      return next()
+  return ctx.body={status:false,message:"only owner can create team"}
+}
+module.exports = {inviteisemail, inviteispassword ,isinviteteamorowner };
