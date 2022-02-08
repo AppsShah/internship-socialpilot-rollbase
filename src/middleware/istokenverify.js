@@ -1,4 +1,4 @@
-const { isEmailindb } = require("../db/query")
+const { isEmailindb } = require("../db/auth")
 const { verifytoken } = require("../helper/token")
 
 
@@ -10,8 +10,8 @@ const istokenverify=async(ctx,next)=>{
     if(data.email==null)
         return ctx.body={success:false,message:"User is not authorized"}
     // console.log(data.email)
-    console.log(data)
-    const d=await isEmailindb(data.email)
+    console.log((data.email).toLowerCase())
+    const d=await isEmailindb((data.email).toLowerCase())
     console.log(d)
     if (d == null)
         return  ctx.body = {success:false,message:"user not found please create account first"}

@@ -1,9 +1,9 @@
-const { isEmailindb } = require("../../db/query")
+const { isEmailindb } = require("../../db/auth");
 const { verifytoken } = require("../../helper/token")
 
 const resetpasswordverify=async(ctx,next)=>{
     const verify=verifytoken(ctx.query.token)
-    const password=ctx.request.body.password
+    const {password}=ctx.request.body
     if(verify.email==null)
         return ctx.body={success:false,message:"Token Expire"}
     if(password==null)

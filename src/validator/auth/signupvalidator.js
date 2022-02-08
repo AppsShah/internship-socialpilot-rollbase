@@ -1,20 +1,30 @@
-const { isEmailindb } = require("../../db/query");
+const { isEmailindb } = require("../../db/auth");
+const axios=require("axios")
+
+const signupisuserrname=(ctx,next)=>{
+  const {username}=ctx.request.body
+  if(username==undefined)
+  {
+    return (ctx.body = { status: false, message: "Please Enter Username" });
+  }
+  return next()
+}
 
 const signupisemail = async (ctx, next) => {
-  const email = ctx.request.body.email;
-  if (email == undefined)
+  const {email} = ctx.request.body
+  if (!email)
     return (ctx.body = { status: false, message: "Please Enter email" });
   const regexp = /\S+@\S+\.\S+/;
-  if (!regexp.test(String(email).toLowerCase()))
+  if (!regexp.test(email))
     return (ctx.body = { status: false, message: "Please Enter right Email" });
-  const data = await isEmailindb(email);
-  if (data != null)
+  const data = await isEmailindb(email.toLowerCase());
+  if (data)
     return (ctx.body = { status: false, message: "user Already present" });
   return next();
 };
 
 const signuppassword = (ctx, next) => {
-  const password = ctx.request.body.password;
+  const {password} = ctx.request.body;
   if (password == undefined)
     return (ctx.body = { status: false, message: "Please Enter password" });
 
@@ -26,4 +36,25 @@ const signuppassword = (ctx, next) => {
   return next();
 };
 
-module.exports = { signupisemail, signuppassword };
+
+
+const signupphotourlvalidator=async(ctx,next)=>{
+  const photourl=ctx.request.body.photourl
+  if(photourl!=null)
+  {
+      if(!(/(http(s?)):\/\//i).test(photourl))
+         return ctx.body={
+          status:false,
+          message:"Enter Valid Link to save photo",
+         }
+      const d= await  axios.head(photourl)
+      if(d.headers['content-type']=="image/jpeg")
+          return next()
+      return ctx.body={
+        status:false,
+        message:"Enter jpeg/jpg photo only" }
+  }
+  return next()     
+}
+
+module.exports = { signupisemail, signuppassword,signupphotourlvalidator ,signupisuserrname};

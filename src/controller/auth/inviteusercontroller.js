@@ -1,4 +1,4 @@
-const { inviteuseradd } = require("../../db/query")
+const { inviteuseradd } = require("../../db/auth")
 const { hashingpassword } = require("../../helper/hashing")
 const { generatetoken } = require("../../helper/token")
 

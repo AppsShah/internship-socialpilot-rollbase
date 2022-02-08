@@ -1,7 +1,7 @@
-const { isEmailindb } = require("../../db/query");
+const { isEmailindb } = require("../../db/auth");
 
 const forgetpasswordisemail=async(ctx,next)=>{
-    const email = ctx.request.body.email;
+    const {email} = ctx.request.body;
     if (email == undefined)
       return (ctx.body = { status: false, message: "Please Enter email" });
     const regexp = /\S+@\S+\.\S+/;

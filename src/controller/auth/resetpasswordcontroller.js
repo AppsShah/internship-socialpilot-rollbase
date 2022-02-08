@@ -1,9 +1,9 @@
-const {resetpassword}=require("../../db/query")
+const {resetpassword}=require("../../db/auth")
 const { hashingpassword } = require("../../helper/hashing")
 
 const resetpasswordcontroller=async(ctx)=>{
-    const pass=ctx.request.body.password
-    const newpass=hashingpassword(pass,10)
+    const {password}=ctx.request.body
+    const newpass=hashingpassword(password,10)
     const d=ctx.state.reset
     console.log(d._id)
     const data=await resetpassword(d._id,newpass)

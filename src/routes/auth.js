@@ -2,7 +2,9 @@ const koarouter = require("koa-router");
 const {
   forgetpasswordcontroller,
 } = require("../controller/auth/forgetpasswordcontroller");
-const { invitetokenacceptcontroller } = require("../controller/auth/inviteuseraccept");
+const {
+  invitetokenacceptcontroller,
+} = require("../controller/auth/inviteuseraccept");
 const {
   inviteusercontroller,
 } = require("../controller/auth/inviteusercontroller");
@@ -25,18 +27,29 @@ const {
 const {
   signupisemail,
   signuppassword,
+  signupphotourlvalidator,
+  signupisuserrname,
 } = require("../validator/auth/signupvalidator");
 const {
   inviteisemail,
   inviteispassword,
   isinviteteamorowner,
+  isinvitephotourl,
+  inviteisuserrname,
 } = require("../validator/auth/userinvitevalidator");
 const router = new koarouter();
 
-
-
 //signup
-router.post("/signup", signupisemail, signuppassword, signupconttroller);
+router.post(
+  "/signup",
+  signupisuserrname,
+  signupisemail,
+  signuppassword,
+  signupphotourlvalidator,
+  signupconttroller
+);
+
+
 
 // login
 router.post("/login", loginisemail, loginispassword, logincontroller);
@@ -55,6 +68,14 @@ router.post(
   inviteusercontroller
 );
 
-router.post("/inviteaccept",inviteisemail,inviteispassword,invitetokenacceptcontroller)
+router.post(
+  "/inviteaccept",
+  inviteisuserrname,
+  inviteisemail,
+  inviteispassword,
+  isinvitephotourl,
+  invitetokenacceptcontroller
+);
 
 module.exports = router;
+
