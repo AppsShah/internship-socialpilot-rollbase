@@ -7,6 +7,7 @@ const generatetoken=(token)=>{
  }
 
  const verifytoken=(token)=>{
+     console.log("in function bekdnowrjlhuilj")
     return jwt.verify(token,key,(err,decoded)=>{
         if(err!=null)
         {

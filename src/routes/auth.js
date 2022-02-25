@@ -21,9 +21,10 @@ const {
   loginisemail,
   loginispassword,
 } = require("../validator/auth/loginvalidator");
-const {
-  resetpasswordverify,
-} = require("../validator/auth/resetpasswordvalidator");
+const { resetpasswordverify } = require("../validator/auth/resetpasswordvalidator");
+// const
+//   resetpasswordverify
+// = require("../validator/auth/resetpasswordvalidator");
 const {
   signupisemail,
   signuppassword,

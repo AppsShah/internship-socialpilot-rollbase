@@ -1,4 +1,4 @@
-const { isEmailindb } = require("../../db/auth");
+const Email  = require("../../db/auth");
 
 const forgetpasswordisemail=async(ctx,next)=>{
     const {email} = ctx.request.body;
@@ -7,7 +7,7 @@ const forgetpasswordisemail=async(ctx,next)=>{
     const regexp = /\S+@\S+\.\S+/;
     if (!regexp.test(String(email).toLowerCase()))
       return (ctx.body = { status: false, message: "Please Enter right Email" });
-    const data = await isEmailindb(email);
+    const data = await Email.isEmailindb(email);
     if (data == null)
       return (ctx.body = { status: false, message: "NO user found" });
     ctx.state.email = data;
