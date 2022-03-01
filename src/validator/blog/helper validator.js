@@ -1,4 +1,4 @@
-const { isblogidindb } = require("../../db/query")
+const blog = require("../../db/query")
 
 const isblogtitle=(ctx,next)=>{
     const {title}=ctx.request.body
@@ -18,10 +18,10 @@ const isblogid=async(ctx,next)=>{
     const {blogID}=ctx.request.body
     if(blogID==undefined)
     {
-        return ctx.body={status:false,message:"Blog ID enter "}
+        return ctx.body={status:false,message:"Blog ID enter"}
     }
-    const blogdata=await isblogidindb(blogID)
-    console.log(blogdata)
+    const blogdata=await blog.isblogidindb(blogID)
+    // console.log(blogdata)
     if(blogdata==null)
     {
         return ctx.body={status:false,message:"Blog not present"}   
@@ -33,8 +33,8 @@ const isblogid=async(ctx,next)=>{
 const isUserAuthorize=(ctx,next)=>{
     const blogdata=ctx.state.blogdata
     const userdata=ctx.state.userdata
-    console.log(blogdata)
-    console.log(userdata)
+    // console.log(blogdata)
+    // console.log(userdata)
     if(userdata.level=="o")
     {
         if(blogdata.ownerID==userdata.ownerID)

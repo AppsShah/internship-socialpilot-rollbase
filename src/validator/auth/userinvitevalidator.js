@@ -1,10 +1,10 @@
-const { isEmailindb } = require("../../db/auth");
-
+const isEmailindb = require("../../db/auth");
+const axios=require("axios")
 const inviteisuserrname=(ctx,next)=>{
   const {username}=ctx.request.body
-  if(username==undefined)
+  if(!username)
   {
-    return (ctx.body = { status: false, message: "Please Enter Username" });
+    return ctx.body = { status: false, message: "Please Enter Username" };
   }
   return next()
 }
@@ -16,8 +16,8 @@ const inviteisemail = async (ctx, next) => {
   const regexp = /\S+@\S+\.\S+/;
   if (!regexp.test(String(email).toLowerCase()))
     return (ctx.body = { status: false, message: "Please Enter right Email" });
-  const data = await isEmailindb(email);
-  if (data != null)
+  const data = await isEmailindb.isEmailindb(email);
+  if (data)
     return (ctx.body = { status: false, message: "User Already Present" });
   ctx.state.email = data;
   return next();
@@ -25,7 +25,7 @@ const inviteisemail = async (ctx, next) => {
 const inviteispassword = (ctx, next) => {
   const {password} = ctx.request.body;
 //   console.log(password)
-  if (password)
+  if (!password)
     return ctx.body = { status: false, message: "Please Enter password" };
 
   if (password.length < 8)
@@ -53,13 +53,20 @@ const isinvitephotourl=async(ctx,next)=>{
           status:false,
           message:"Enter Valid Link to save photo",
          }
+    try {
       const d= await  axios.head(photourl)
       if(d.headers['content-type']=="image/jpeg")
           return next()
       return ctx.body={
         status:false,
         message:"Enter jpeg/jpg photo only" }
+    } catch (error) {
+      return ctx.body={
+        status:false,
+        message:"Enter jpeg/jpg photo only" }
+    }
+      
   }
-  return next()     
+  return next()   
 }
 module.exports = {inviteisemail, inviteispassword ,isinviteteamorowner ,isinvitephotourl,inviteisuserrname};

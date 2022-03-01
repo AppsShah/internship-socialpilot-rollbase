@@ -1,4 +1,4 @@
-const { signup } = require("../../db/auth")
+const authdata = require("../../db/auth")
 const { hashingpassword } = require("../../helper/hashing")
 const { v4: uuidv4 } = require('uuid')
 const { v4 } = require("uuid")
@@ -11,8 +11,8 @@ const signupconttroller=async(ctx)=>{
     // const photourl=ctx.request.body.photourl
     const ownerID=v4()
     const userID=ownerID
-    console.log(ownerID)
-    await signup(username,email,hashpassword,photourl,ownerID,userID)
+    // console.log(ownerID)
+    await authdata.signup(username,email,hashpassword,photourl,ownerID,userID)
     ctx.body={status:true,message:"Data Added Successfully"}
 }
 module.exports={signupconttroller}
